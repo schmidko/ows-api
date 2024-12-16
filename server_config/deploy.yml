@@ -1,0 +1,48 @@
+
+---
+- hosts: ows
+  remote_user: mog
+  vars_prompt:
+    - name: "ansible_become_pass"
+      prompt: "Sudo password"
+      private: yes
+  become: yes
+  become_flags: "-E"
+  gather_facts: yes
+
+  tasks:
+
+    - name: Delete directory
+      file:
+        state: absent
+        path: "/var/www/ows-api"
+
+    - name: Create directory
+      file:
+        path: "/var/www/ows-api"
+        state: directory
+
+    - name: Clone git repository
+      git:
+        repo: "git@github.com:schmidko/ows-api.git"
+        version: "main"
+        dest: "/var/www/ows-api/"
+        force: yes
+        accept_hostkey: yes
+      
+    - name: Copy env
+      copy:
+        src: "/home/mog/env/ows/.env"
+        dest: "/var/www/ows-api/src/config/.env"
+        remote_src: true
+    
+    - name: Stop container
+      shell:
+        cmd: "docker compose down"
+        chdir: /var/www/ows-api/
+
+    - name: Run container
+      shell:
+        cmd: "docker compose up --detach"
+        chdir: /var/www/ows-api/
+

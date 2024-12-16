@@ -1,0 +1,14 @@
+/node_modules/
+.DS_Store
+.idea
+dist
+.env
+/public/static/bundle.js
+/public/static/bundle_login.js
+/public/static/output.css
+test.js
+test.json
+/public/static/bundle.js.map
+/public/static/bundle_login.js.map
+/workspace.code-workspace
+*.js.LICENSE.txt
