@@ -1,6 +1,7 @@
 const { GeneralError } = require('../utils/generalError');
 
 const errorHandler = async (err, req, res, next) => {
+	
 	if (!err) {
 		return;
 	}

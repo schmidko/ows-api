@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const webRouter = require('./routes/index');
+const v1 = require('./routes/index');
 const dotenv = require('dotenv');
 const errorHandler = require('./middleware/errorHandler');
 dotenv.config({ path: path.join(__dirname, '../config/.env') });
@@ -12,8 +12,9 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, '../../public')));
 app.use(express.json());
-app.use('/', webRouter);
+app.use('/v1', v1);
 
 app.use(errorHandler);
+
 
 module.exports = app;

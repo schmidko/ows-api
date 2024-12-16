@@ -27,8 +27,10 @@ router.get('/ows', async (req, res, next) => {
 	return res.json(output);
 });
 
-router.get('*', (req, res) => {
-	res.sendFile(BASEPATH + 'src/server/views/app.html')
-});
+router.get('/', (req, res) => {
+	throw new Error('Route not found!');
+})
+  
+
 
 module.exports = router;
