@@ -1,0 +1,34 @@
+
+services:
+  node:
+    image: "node"
+    container_name: ows-api
+    working_dir: /app
+    environment:
+      - NODE_ENV=production
+    ports:
+      - "6699:6699"
+    command: sh -c "npm i && npm start"
+    volumes:
+      - /var/www/ows-api:/app
+    networks:
+      - ows
+    extra_hosts:
+      - "host.docker.internal:152.53.38.8"
+
+  # mongodb:
+  #   image: mongo:latest
+  #   container_name: mongodb
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: root
+  #     MONGO_INITDB_ROOT_PASSWORD: knut
+  #   ports:
+  #     - 27055:27017
+  #   volumes:
+  #     - /home/mog/mongo_data:/data/db
+  #   networks:
+  #     - ows
+      
+networks:
+  ows:
+    external: true

@@ -38,11 +38,11 @@
     
     - name: Stop container
       shell:
-        cmd: "docker compose down"
+        cmd: "docker compose down ows-api"
         chdir: /var/www/ows-api/
 
     - name: Run container
       shell:
-        cmd: "docker compose up --detach"
+        cmd: "docker compose up -f /var/www/ows-api/server-config/docker-compose.yml --detach"
         chdir: /var/www/ows-api/
 
