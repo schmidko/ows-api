@@ -3,8 +3,7 @@ const path = require('path');
 const v1 = require('./routes/index');
 const dotenv = require('dotenv');
 const errorHandler = require('./middleware/errorHandler');
-dotenv.config({ path: path.join(__dirname, '../config/.env') });
-require('dotenv').config({path: __dirname + '/.env'});
+dotenv.config({ path: path.join(__dirname, '../config/.env')});
 global.BASEPATH = path.join(__dirname, '../../');
 global.NODE_ENV = process.env.NODE_ENV;
 
