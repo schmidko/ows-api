@@ -56,6 +56,20 @@ async function getDrepData(addressInput) {
     }
 }
 
+async function getAllAssets(addressInput) {
+    const stakeAddress = await findStakeAddress(addressInput);
+
+    try {
+        const {db} = await connectDB();
+        const collection = db.collection("assets");
+        const queryFind = {"stakeAddress": stakeAddress};
+        const result = await collection.findOne(queryFind);
+        return result;
+    } catch (e) {
+        return false;
+    }
+}
+
 async function findStakeAddress(address) {
     address = address.toLowerCase();
 
@@ -93,5 +107,6 @@ async function findStakeAddress(address) {
 }
 
 module.exports = {
-    getDrepData: getDrepData
+    getDrepData: getDrepData,
+    getAllAssets: getAllAssets,
 }

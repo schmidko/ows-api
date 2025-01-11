@@ -1,7 +1,7 @@
 
 const express = require('express');
 const router = express.Router();
-const {getDrepData} = require("../controller/ows.js");
+const {getDrepData, getAllAssets} = require("../controller/ows.js");
 
 router.get('/ping', async (req, res) => {
 		res.json({"message":"pong"});
@@ -13,10 +13,27 @@ router.get('/isDelegatedToDrep', async (req, res, next) => {
 	let output = {status: 0};
 	if (req.query.address) {
 		const result = await getDrepData(req.query.address);
-		console.log('dd', result);
 		
 		if (result) {
 			output = {"status": 1, "data": result};
+		} else {
+			output['message'] = "No result from database!";
+		}
+	} else {
+		output['message'] = "No address found!";
+	}
+	
+	return res.json(output);
+});
+
+router.get('/allAssets', async (req, res, next) => {
+	
+	let output = {status: 0};
+	if (req.query.address) {
+		const result = await getAllAssets(req.query.address);
+		
+		if (result?.assets) {
+			output = {"status": 1, "data": result.assets};
 		} else {
 			output['message'] = "No result from database!";
 		}
