@@ -35,7 +35,7 @@ router.get('/allAssets', async (req, res, next) => {
 		if (result?.assets) {
 			output = {"status": 1, "data": result.assets};
 		} else {
-			output['message'] = "No result from database!";
+			output['message'] = {"status": 1, "data": []};
 		}
 	} else {
 		output['message'] = "No address found!";
