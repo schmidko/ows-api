@@ -17,7 +17,7 @@ router.get('/isDelegatedToDrep', async (req, res, next) => {
 		if (result) {
 			output = {"status": 1, "data": result};
 		} else {
-			output['message'] = "No result from database!";
+			output['message'] = "No data!";
 		}
 	} else {
 		output['message'] = "No address found!";
