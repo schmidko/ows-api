@@ -31,11 +31,14 @@ router.get('/allAssets', async (req, res, next) => {
 	let output = {status: 0};
 	if (req.query.address) {
 		const result = await getAllAssets(req.query.address);
+		if (!result?.stakeAddress) {
+			output['message'] = "No address found!";
+		}
 		
 		if (result?.assets) {
 			output = {"status": 1, "data": result.assets};
 		} else {
-			output['message'] = {"status": 1, "data": []};
+			output['message'] = "No data for address!";
 		}
 	} else {
 		output['message'] = "No address found!";
