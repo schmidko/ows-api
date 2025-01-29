@@ -42,7 +42,7 @@ async function getDrepData(addressInput) {
             where stake_address.view = '${stakeAddress}'
             ORDER BY tx_id
         ;`;
-       
+
         const res = await client.query(query);
 
         let returnValue = {"isDelegatedToDrep": false, "drep_id": ""};
@@ -61,12 +61,24 @@ async function getAllAssets(addressInput) {
 
     try {
         const {db} = await connectDB();
-        const collection = db.collection("assets");
-        const queryFind = {"stakeAddress": stakeAddress};
-        const result = await collection.findOne(queryFind);
-        return result;
+        const collection1 = db.collection("assets");
+        const queryFindAssets = {"stakeAddress": stakeAddress};
+        const resultAssets = await collection1.findOne(queryFindAssets);
+        const collection2 = db.collection("addresses");
+        const queryFindAddresses = {"stakeAddress": stakeAddress};
+        const resultAddresses = await collection2.findOne(queryFindAddresses);
+
+        const finalResult = {
+            "status": 1, data: {
+                balanceAda: resultAddresses.balanceAda,
+                balanceLovelace: resultAddresses.balanceLovelace,
+                assets: resultAssets?.assets ? resultAssets.assets : []
+            }
+        };
+
+        return finalResult;
     } catch (e) {
-        return false;
+        return {status: 0, message: "Unkown error!"};
     }
 }
 
@@ -81,7 +93,7 @@ async function findStakeAddress(address) {
         port: 5432,
         //ssl: true
     };
-    
+
     if (address.indexOf('stake') === 0) {
         return address;
     }

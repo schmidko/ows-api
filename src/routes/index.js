@@ -27,23 +27,13 @@ router.get('/isDelegatedToDrep', async (req, res, next) => {
 });
 
 router.get('/allAssets', async (req, res, next) => {
-	
-	let output = {status: 0};
+	let output = null;
 	if (req.query.address) {
-		const result = await getAllAssets(req.query.address);
-		if (!result?.stakeAddress) {
-			output['message'] = "No address found!";
-		}
+		output = await getAllAssets(req.query.address);
 		
-		if (result?.assets) {
-			output = {"status": 1, "data": result.assets};
-		} else {
-			output['message'] = "No data for address!";
-		}
 	} else {
-		output['message'] = "No address found!";
+		output = {status: 0, message: "No address found!"};
 	}
-	
 	return res.json(output);
 });
 
