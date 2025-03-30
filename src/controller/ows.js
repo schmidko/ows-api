@@ -63,6 +63,16 @@ async function getAllAssets(addressInput) {
     }
 }
 
+async function getStakeAddress(addressInput) {
+    try {
+        return findStakeAddress(addressInput);
+    } catch (e) {
+        return {status: 0, message: "Unkown error!"};
+    }
+}
+
+
+
 async function findStakeAddress(address) {
     address = address.toLowerCase();
 
@@ -94,4 +104,5 @@ async function findStakeAddress(address) {
 module.exports = {
     getDrepData: getDrepData,
     getAllAssets: getAllAssets,
+    getStakeAddress: getStakeAddress,
 }

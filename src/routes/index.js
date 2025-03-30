@@ -1,7 +1,7 @@
 
 const express = require('express');
 const router = express.Router();
-const {getDrepData, getAllAssets} = require("../controller/ows.js");
+const {getDrepData, getAllAssets, getStakeAddress} = require("../controller/ows.js");
 
 router.get('/ping', async (req, res) => {
 		res.json({"message":"pong"});
@@ -30,6 +30,17 @@ router.get('/allAssets', async (req, res, next) => {
 	let output = null;
 	if (req.query.address) {
 		output = await getAllAssets(req.query.address);
+		
+	} else {
+		output = {status: 0, message: "No address found!"};
+	}
+	return res.json(output);
+});
+
+router.get('/getStakeAddress', async (req, res, next) => {
+	let output = null;
+	if (req.query.address) {
+		output = await getStakeAddress(req.query.address);
 		
 	} else {
 		output = {status: 0, message: "No address found!"};
