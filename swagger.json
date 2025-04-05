@@ -1,0 +1,212 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Open WalletScore API",
+    "version": "1.0.0",
+    "description": "API for interacting with Cardano blockchain data"
+  },
+  "servers": [
+    {
+      "url": "http://api.adablox.com/v1"
+    }
+  ],
+  "paths": {
+    "/ping": {
+      "get": {
+        "description": "Ping the server",
+        "responses": {
+          "200": {
+            "description": "Server is up and running",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "pong"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/isDelegatedToDrep": {
+      "get": {
+        "description": "Check if the address is delegated to a DRep",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "address",
+            "required": true,
+            "description": "Cardano address",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delegation data found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "data": {
+                      "type": "object",
+                      "additionalProperties": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No address or data found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "No data!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/allAssets": {
+      "get": {
+        "description": "Get all assets associated with a Cardano address",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "address",
+            "required": true,
+            "description": "Cardano address",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of assets found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "data": {
+                      "type": "object",
+                      "additionalProperties": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No address found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "No address found!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getStakeAddress": {
+      "get": {
+        "description": "Get stake address for the provided Cardano address",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "address",
+            "required": true,
+            "description": "Cardano address",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Stake address found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "data": {
+                      "type": "string",
+                      "example": "stake1u8z..."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No address found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "No address found!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
