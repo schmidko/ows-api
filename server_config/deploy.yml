@@ -32,7 +32,7 @@
       
     - name: Copy env
       copy:
-        src: "/home/mog/env/ows/.env"
+        src: "/home/mog/env/ows-api/.env"
         dest: "/var/www/ows-api/config/.env"
         remote_src: true
     
