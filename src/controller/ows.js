@@ -1,6 +1,10 @@
 
 const {connectDB} = require("../db.js");
+const dotenv = require('dotenv');
+const path = require('path');
 const pg = require('pg');
+
+dotenv.config({ path: path.join(__dirname, '../../config/.env') });
 
 const configPG = {
     host: process.env.PG_HOST,
@@ -87,6 +91,7 @@ async function findStakeAddress(address) {
             query = `SELECT DISTINCT stake_address.id as stake_address_id, tx_out.address, stake_address.view as stake_address
 	        from stake_address left join tx_out on tx_out.stake_address_id = stake_address.id
 	        where address = '${address}';`;
+            
             const res = await client.query(query);
             await client.end();
             if (res?.rows[0]?.stake_address) {
