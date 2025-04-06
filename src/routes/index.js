@@ -41,7 +41,6 @@ router.get('/getStakeAddress', async (req, res, next) => {
 	let output = null;
 	if (req.query.address) {
 		output = await getStakeAddress(req.query.address);
-		
 	} else {
 		output = {status: 0, message: "No address found!"};
 	}

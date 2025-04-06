@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 const path = require('path');
 const pg = require('pg');
 
-dotenv.config({ path: path.join(__dirname, '../../config/.env') });
+dotenv.config({path: path.join(__dirname, '../../config/.env')});
 
 const configPG = {
     host: process.env.PG_HOST,
@@ -69,9 +69,9 @@ async function getAllAssets(addressInput) {
 
 async function getStakeAddress(addressInput) {
     try {
-        return findStakeAddress(addressInput);
+        return {status: 1, stakeAddress: findStakeAddress(addressInput)};
     } catch (e) {
-        return {status: 0, message: "Unkown error!"};
+        return {status: 0, message: "Can't find address!"};
     }
 }
 
@@ -88,10 +88,14 @@ async function findStakeAddress(address) {
             const {Client} = pg;
             const client = new Client(configPG);
             await client.connect();
-            query = `SELECT DISTINCT stake_address.id as stake_address_id, tx_out.address, stake_address.view as stake_address
-	        from stake_address left join tx_out on tx_out.stake_address_id = stake_address.id
-	        where address = '${address}';`;
-            
+
+            query = `SELECT DISTINCT stake_address.id AS stake_address_id,
+                tx_out.address,
+                stake_address.view AS stake_address
+                FROM stake_address
+                LEFT JOIN tx_out ON tx_out.stake_address_id = stake_address.id
+                WHERE left(tx_out.address, 128) = '${address}';`;
+
             const res = await client.query(query);
             await client.end();
             if (res?.rows[0]?.stake_address) {

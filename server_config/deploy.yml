@@ -45,4 +45,3 @@
       shell:
         cmd: "docker compose -f /var/www/ows-api/server_config/docker-compose.yml up --detach"
         chdir: /var/www/ows-api/
-
