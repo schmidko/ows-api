@@ -1,4 +1,5 @@
 
+const {log} = require("console");
 const {connectDB} = require("../db.js");
 const dotenv = require('dotenv');
 const path = require('path');
@@ -69,7 +70,7 @@ async function getAllAssets(addressInput) {
 
 async function getStakeAddress(addressInput) {
     try {
-        return {status: 1, stakeAddress: findStakeAddress(addressInput)};
+        return {status: 1, stakeAddress: await findStakeAddress(addressInput)};
     } catch (e) {
         return {status: 0, message: "Can't find address!"};
     }
